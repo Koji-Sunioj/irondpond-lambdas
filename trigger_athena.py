@@ -1,11 +1,11 @@
-import boto3
 import os
+import boto3
 
 client = boto3.client("athena")
 
 def handler(event, context):
     response = client.get_named_query(
-        NamedQueryId='e0c773dc-edcc-45fe-8809-25d23a922fcd'
+        NamedQueryId=os.environ['ATHENA_QUERY']
     )
     query_string = response["NamedQuery"]["QueryString"]
     client.start_query_execution(
