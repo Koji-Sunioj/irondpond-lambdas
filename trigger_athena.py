@@ -11,10 +11,10 @@ def handler(event, context):
     client.start_query_execution(
         QueryString=query_string,
         QueryExecutionContext={
-            'Database': 'default',
+            'Database': response["NamedQuery"]["Database"],
         },
         ResultConfiguration={
             'OutputLocation': 's3://%s/results/' % (os.environ['LOGS_BUCKET'])
         },
-        WorkGroup='primary',
+        WorkGroup=response["NamedQuery"]["WorkGroup"],
     )
