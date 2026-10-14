@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v6
       - name: update s3 and lambda
         run: |
-          zip ironpond_functions.zip trigger_athena.py query_s3.py
+          zip ironpond_functions.zip trigger_athena.py query_s3.py edge_iata_iso.json
           aws s3api put-object --region us-east-1 --bucket $FUNCTION_BUCKET \
             --key functions/ironpond_functions.zip --body ironpond_functions.zip
 
