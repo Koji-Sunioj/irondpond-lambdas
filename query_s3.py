@@ -49,14 +49,14 @@ def handler(event, context):
         #2. create aggregates
         #a. website uri with visit count
         select_top_uris = 'select uri,count(uri) visitors from ironpond.default.cloudfront_logs where uri in \
-            ("/","/resume","/portfolio","/about","metrics") group by uri order by visitors desc;'
+            ("/","/resume","/portfolio","/about","/metrics") group by uri order by visitors desc;'
         cursor.execute(select_top_uris)
         data = cursor.fetchall()
         top_uris = pd.DataFrame(data,columns=["uri","visits"])
         
         #b. month with visit count
         select_visits_per_month = 'select date(date_trunc("month",timestamp(date))) month,count(time) visits \
-            from ironpond.default.cloudfront_logs where date is not null and uri in ("/","/resume","/portfolio","/about","metrics") \
+            from ironpond.default.cloudfront_logs where date is not null and uri in ("/","/resume","/portfolio","/about","/metrics") \
             group by month order by month desc;'
         cursor.execute(select_visits_per_month)
         data = cursor.fetchall()
@@ -65,7 +65,7 @@ def handler(event, context):
 
         #c. edgepoint location visit count
         select_location_visits = 'select substring(location,0,3) country_iso,count(time) visits from ironpond.default.cloudfront_logs  \
-            where location is not null and uri in ("/","/resume","/portfolio","/about","metrics") group by country_iso order by visits desc;'
+            where location is not null and uri in ("/","/resume","/portfolio","/about","/metrics") group by country_iso order by visits desc;'
         cursor.execute(select_location_visits)
         data =  pd.DataFrame(cursor.fetchall(),columns=["country_iso","visits"])
 
