@@ -34,6 +34,7 @@ def handler(event, context):
     
     #b. insert if no rows exist for that date
     if last_rows == 0:
+        print("inserting rows for date %s. since it does not exist" % logs_table.date.unique()[0])
         insert_ddl= 'insert into \
             ironpond.default.cloudfront_logs (date,time,location,request_ip,referrer,method,host,uri,status,user_agent,xforwarded_for) values\n'
         rows = []
@@ -80,3 +81,5 @@ def handler(event, context):
         
         s3.put_object(Bucket=front_end_bucket, Body=highcharts_data,
                         Key="app_data/visits.json", ACL="public-read")
+    else:
+        print("rows existing for date %s. aborting" % logs_table.date.unique()[0])
