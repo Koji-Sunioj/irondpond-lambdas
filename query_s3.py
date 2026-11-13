@@ -33,6 +33,7 @@ def handler(event, context):
                 "Authorization": "Bearer %s" % databricks_token
             }
         )
+        pprint(vars(response))
         response.raise_for_status()
 
         #3. connect to the warehouse and fetch where date value exists in s3 file
