@@ -97,6 +97,8 @@ def handler(event, context):
             
             s3.put_object(Bucket=front_end_bucket, Body=highcharts_data,
                             Key="app_data/visits.json", ACL="public-read")
+            
+            conn.close()
         else:
             print("rows existing for date %s. aborting" % logs_table.date.unique()[0])
 
